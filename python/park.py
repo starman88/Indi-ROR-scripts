@@ -25,7 +25,7 @@ hat_stack = 0
 relay_on = 1
 relay_off = 0
 
-# pulse the motor relay on, then off again to start the Aleko close cycle
+# pulse the motor relay on, then off again to start the Aleko AR900 motor cycle
 def pulse_motor():    
     libioplus.setRelayCh(hat_stack,motor_relay,relay_on)
     time.sleep(0.7)
@@ -33,7 +33,7 @@ def pulse_motor():
 
 # If roof is already closed then print message and quit.
 if roof_closed_switch.is_pressed:
-    print("roof is already parked")
+    print("roof is already closed")
     sys.exit(0)
 
 # If roof neither fully open or closed then print message quit
@@ -47,14 +47,14 @@ if roof_closed_switch.value == 0 and roof_open_switch.value == 0:
 if roof_open_switch.is_pressed:
     pulse_motor()
 
-#monitor the roof movement    
+# monitor the roof movement    
 roof_open_switch.wait_for_release()   
 print("roof is moving...")
     
 roof_closed_switch.wait_for_press()
 print("roof is parked")
 
-#update INDI Dome Scripting Gateway status file
+# update INDI Dome Scripting Gateway status file
 coordinates = open('/tmp/indi-status', 'w')
 coordinates.truncate()
 coordinates.write('1 0 0')
