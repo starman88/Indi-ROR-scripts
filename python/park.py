@@ -13,11 +13,11 @@ import time
 import libioplus
 import sys
 
-# assign roof_open_switch to read on GPIO 8, other wire attached to ground
-roof_open_switch = Button(99)
-# assign roof_closed_switch to read on GPIO 10, other wire attached to ground
-roof_closed_switch = Button(99)
-# assign motor_relay to relay #1 on the relay hat
+# assign roof_open_switch to read on GPIO pin 13, other wire attached to ground
+roof_open_switch = Button(13)
+# assign roof_closed_switch to read on GPIO pin 21, other wire attached to ground
+roof_closed_switch = Button(21)
+# assign motor_relay to relay #4 on the Sequent Microsystems home automation 8 relay hat
 motor_relay = 4
 # assign hat_stack to 0, which is the first relay hat (you can have multiple hats stacked up)
 hat_stack = 0
