@@ -1,7 +1,8 @@
 #!/usr/bin/python
 #
 # Park script for INDI Dome Scripting Gateway
-# gratefully based on github.com/fenriques/indi/blob/master/libindi/drivers/dome/dome_script.txt
+# Based on github.com/fenriques/indi/blob/master/libindi/drivers/dome/dome_script.txt
+# 
 #
 # The default folder is /usr/share/indi/scripts. 
 # Exit code: 0 for success, 1 for failure
