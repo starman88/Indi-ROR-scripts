@@ -24,12 +24,21 @@ hat_stack = 0
 # assign relay on/off in english
 relay_on = 1
 relay_off = 0
+# assign opto_channel to optocoupler #1 on the Sequent Microsystems home automation 8 relay hat
+opto_channel = 1
 
 # pulse the motor relay on, then off again to start the Aleko AR900 motor cycle
 def pulse_motor():    
     libioplus.setRelayCh(hat_stack,motor_relay,relay_on)
     time.sleep(0.7)
     libioplus.setRelayCh(hat_stack,motor_relay,relay_off)
+
+# determine if the mount is parked by checking if the beam detector is finding the reflection, return 'true' or 'false'
+def mount_parked () :
+    if libioplus.getOptoCh(hat_stack, opto_channel) == 1:
+        return True
+    else:
+        return False
 
 # If roof is already closed then print message and quit.
 if roof_closed_switch.is_pressed:
@@ -39,6 +48,21 @@ if roof_closed_switch.is_pressed:
 # If roof neither fully open or closed then print message quit
 if roof_closed_switch.value == 0 and roof_open_switch.value == 0:
     print("roof is partially open, cycle manually")
+    sys.exit(0)
+
+# If mount is not parked then print a message and keep checking for one minute. If mount parks then print message and continue otherwise print fail message and quit.
+if not mount_parked:
+    print("mount is not parked")
+    for x in range(6):
+        print('waiting for mount to park...')
+        time.sleep(10)
+        if mount_parked:
+            break
+if mount_parked:
+    print("mount is parked")
+else:
+    print('mount not parked, unable to close roof')
+    print('quitting')
     sys.exit(0)
 
 # If roof is fully open then trigger the motor to close, wait for closed confirmation,
